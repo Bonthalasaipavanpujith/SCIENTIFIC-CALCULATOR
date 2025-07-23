@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Scientific Calculator</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .calculator {
+      background-color:#445B89 ;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      width: 400px;
+      height:470px;
+    }
+    #display {
+      width: 100%;
+      padding: 15px;
+      font-size: 22px;
+      margin-bottom: 20px;
+      border: 1px 
+      solid #DDFFDD;
+      border-radius: 10px;
+      text-align: right;
+      height:60px
+    }
+    .button-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 10px;
+    }
+    button {
+      padding: 15px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      background-color: #e0e0e0;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background-color: #d0d0d0;
+    }
+    .clear{
+      background-color:#FFA500;
+      color:#000000
+    }
+    .clear:hover{
+      background-color:#FFAC1C ;
+    }
+    .numbers{
+      background-color: #ADD8E6;
+      color:#000000;
+    }
+    .numbers:hover{
+      background-color:#0000FF ;
+    }
+    .equal {
+      background-color: #4caf50;
+      color: white;
+    }
+    .equal:hover {
+      background-color: #45a049;
+    }
+    .wide {
+      grid-column: span 2;
+    }
+  </style>
+</head>
+<body>
+
+<div class="calculator">
+  <input type="text" id="display" readonly />
+
+  <div class="button-grid">
+    <!-- Scientific Row -->
+    <button onclick="appendFunc('Math.sin(')">sin</button>
+    <button onclick="appendFunc('Math.cos(')">cos</button>
+    <button onclick="appendFunc('Math.tan(')">tan</button>
+    <button onclick="appendFunc('Math.log10(')">log</button>
+    <button class="clear" onclick="clearDisplay()">C</button>
+    <button class="clear"onclick="deleteLast()">⌫</button>
+    
+
+    <!-- Roots & Powers -->
+    <button onclick="appendFunc('Math.sqrt(')">√</button>
+    <button onclick="appendFunc('Math.cbrt(')">∛</button>
+    <button onclick="appendFunc('**2')">x²</button>
+    <button onclick="appendFunc('**3')">x³</button>
+    <button onclick="appendFunc('**')">xʸ</button>
+    <button onclick="calculateReciprocal()">1/x</button>
+
+    <!-- Digits and Operators -->
+    <button class="numbers" onclick="appendValue('7')">7</button>
+    <button class="numbers" onclick="appendValue('8')">8</button>
+    <button class="numbers"onclick="appendValue('9')">9</button>
+    <button onclick="appendValue('/')">÷</button>
+    <button onclick="appendFunc('(')">(</button>
+    <button onclick="appendFunc(')')">)</button>
+
+    <button class="numbers"onclick="appendValue('4')">4</button>
+    <button class="numbers"onclick="appendValue('5')">5</button>
+    <button class="numbers"onclick="appendValue('6')">6</button>
+    <button onclick="appendValue('*')">×</button>
+    <button onclick="appendFunc('Math.log(')">ln</button>
+    <button onclick="appendFunc('Math.exp(')">eˣ</button>
+    
+
+    <button class="numbers"onclick="appendValue('1')">1</button>
+    <button class="numbers"onclick="appendValue('2')">2</button>
+    <button class="numbers"onclick="appendValue('3')">3</button>
+    <button onclick="appendValue('-')">−</button>
+    <button onclick="appendFunc('Math.PI')">π</button>
+    <button onclick="appendFunc('Math.E')">e</button>
+
+    <button class="numbers"onclick="appendValue('0')">0</button>
+    <button onclick="appendValue('.')">.</button>
+    <button onclick="appendValue('%')">%</button>
+    <button onclick="appendValue('+')">+</button>
+    <button class="equal wide" onclick="calculateResult()">=</button>
+  </div>
+</div>
+
+<script>
+  const display = document.getElementById('display');
+
+  function appendValue(value) {
+    display.value += value;
+  }
+
+  function appendFunc(func) {
+    display.value += func;
+  }
+
+  function clearDisplay() {
+    display.value = '';
+  }
+
+  function deleteLast() {
+    display.value = display.value.slice(0, -1);
+  }
+
+  function calculateReciprocal() {
+    try {
+      const value = parseFloat(display.value);
+      if (!isNaN(value)) {
+        display.value = 1 / value;
+      } else {
+        display.value = 'Error';
+      }
+    } catch {
+      display.value = 'Error';
+    }
+  }
+
+  function calculateResult() {
+    try {
+      let expr = display.value
+        .replace(/%/g, '/100')
+        .replace(/π/g, 'Math.PI')
+        .replace(/e/g, 'Math.E');
+
+      display.value = eval(expr);
+    } catch (e) {
+      display.value = 'Error';
+    }
+  }
+</script>
+
+</body>
+</html>
