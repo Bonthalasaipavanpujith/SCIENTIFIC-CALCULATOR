@@ -25,5 +25,5 @@ Theming options (light/dark mode).
 History of calculations.
 
 ## 📄 License
-This project is licensed under the MIT License 
+This project is licensed under the MIT License .
 
